@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniCenter – Planejamento Técnico Inicial</title>
+<style>
+  :root {
+    --azul: #1f6fb2;
+    --azul-escuro: #14507f;
+    --azul-claro: #eaf4fb;
+    --texto: #243447;
+    --texto-suave: #5b6b7c;
+    --borda: #dfe7ee;
+    --vermelho: #d93025;
+    --vermelho-claro: #fdeceb;
+    --verde: #1e8e5a;
+    --fundo: #f6f9fc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--texto);
+    background: var(--fundo);
+    line-height: 1.65;
+  }
+
+  /* ---------- Cabeçalho ---------- */
+  header.hero {
+    background: linear-gradient(135deg, var(--azul-escuro), var(--azul));
+    color: #fff;
+    padding: 46px 20px 38px;
+    text-align: center;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 5px 16px;
+    font-size: .82rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+  }
+  .hero h1 { font-size: 2.3rem; font-weight: 800; margin-bottom: 6px; }
+  .hero h1 span { font-weight: 400; opacity: .85; }
+  .hero p.sub { font-size: 1.05rem; opacity: .92; max-width: 760px; margin: 0 auto; }
+  .hero .meta { margin-top: 16px; font-size: .9rem; opacity: .8; }
+
+  /* ---------- Navegação ---------- */
+  nav.sumario {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    border-bottom: 1px solid var(--borda);
+    box-shadow: 0 2px 8px rgba(20,80,127,.06);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 9px 12px;
+  }
+  nav.sumario a {
+    color: var(--azul-escuro);
+    text-decoration: none;
+    font-size: .87rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  nav.sumario a:hover { background: var(--azul-claro); }
+
+  /* ---------- Estrutura ---------- */
+  main { max-width: 1080px; margin: 0 auto; padding: 34px 20px 70px; }
+  section.bloco {
+    background: #fff;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 30px 34px;
+    margin-bottom: 26px;
+    scroll-margin-top: 70px;
+  }
+  h2 {
+    color: var(--azul-escuro);
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    background: var(--azul);
+    color: #fff;
+    font-size: .95rem;
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  h2 + .linha { height: 3px; width: 64px; background: var(--azul); border-radius: 3px; margin: 8px 0 20px; }
+  h3 { color: var(--azul-escuro); font-size: 1.12rem; margin: 26px 0 10px; }
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 0 0 14px 22px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--azul-escuro); }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border-left: 4px solid var(--azul);
+    background: var(--azul-claro);
+    padding: 13px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 16px 0;
+    font-size: .95rem;
+  }
+  .callout.vermelho { border-color: var(--vermelho); background: var(--vermelho-claro); }
+  .callout.verde { border-color: var(--verde); background: #e9f7f0; }
+  .callout.amarelo { border-color: #e8a33d; background: #fdf5e6; }
+
+  /* ---------- Figuras ---------- */
+  figure {
+    background: #fff;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 22px 0;
+    text-align: center;
+  }
+  figure img { max-width: 100%; height: auto; border-radius: 8px; }
+  figcaption {
+    font-size: .9rem;
+    color: var(--texto-suave);
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  /* ---------- Tabelas ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: .93rem;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(20,80,127,.08);
+  }
+  th {
+    background: var(--azul-escuro);
+    color: #fff;
+    text-align: left;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: .88rem;
+  }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fbfe; }
+
+  /* ---------- Cards ---------- */
+  .grid { display: grid; gap: 14px; margin: 16px 0; }
+  .grid.dois { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid.tres { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card {
+    background: #f8fbfe;
+    border: 1px solid var(--borda);
+    border-radius: 11px;
+    padding: 16px 18px;
+  }
+  .card h4 { color: var(--azul-escuro); font-size: .98rem; margin-bottom: 7px; }
+  .card p, .card li { font-size: .9rem; margin-bottom: 5px; }
+  .card ul { margin-left: 18px; }
+
+  /* ---------- Tela cards (telas detalhadas) ---------- */
+  .tela {
+    border: 1px solid var(--borda);
+    border-left: 4px solid var(--azul);
+    border-radius: 0 11px 11px 0;
+    padding: 15px 19px;
+    margin: 13px 0;
+    background: #fbfdff;
+  }
+  .tela h4 { color: var(--azul-escuro); font-size: 1rem; margin-bottom: 5px; }
+  .tela p { font-size: .93rem; margin-bottom: 0; }
+  .tela.sos { border-left-color: var(--vermelho); }
+  .tela.sos h4 { color: var(--vermelho); }
+
+  /* ---------- RFs ---------- */
+  .rf { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 8px; margin: 14px 0; }
+  .rf div {
+    background: #f8fbfe;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    padding: 9px 13px;
+    font-size: .9rem;
+  }
+  .rf b { color: var(--azul); font-weight: 700; }
+
+  /* ---------- Passos ---------- */
+  .passos { counter-reset: passo; list-style: none; margin-left: 0; }
+  .passos li {
+    counter-increment: passo;
+    position: relative;
+    padding: 11px 16px 11px 52px;
+    background: #f8fbfe;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    margin-bottom: 9px;
+    font-size: .94rem;
+  }
+  .passos li::before {
+    content: counter(passo);
+    position: absolute;
+    left: 13px; top: 50%;
+    transform: translateY(-50%);
+    background: var(--azul);
+    color: #fff;
+    width: 27px; height: 27px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .85rem;
+  }
+
+  /* ---------- Rodapé ---------- */
+  footer {
+    text-align: center;
+    padding: 26px 20px 34px;
+    color: var(--texto-suave);
+    font-size: .87rem;
+    border-top: 1px solid var(--borda);
+    background: #fff;
+  }
+  footer strong { color: var(--azul-escuro); }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.6rem; }
+    section.bloco { padding: 22px 17px; }
+    nav.sumario a { font-size: .78rem; padding: 5px 9px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== CABEÇALHO ===================== -->
+<header class="hero">
+  <div class="badge">HACKARUN · DESAFIO 07 – ATENDIMENTO E EXPERIÊNCIA DE SERVIÇOS</div>
+  <h1>OmniCenter <span>– Hub Integrado de Experiência Phygital</span></h1>
+  <p class="sub">Aplicação web acessada por QR Code que reúne orientações, reclamações e situações inesperadas dos visitantes e entrega cada chamado ao setor certo do shopping em tempo real.</p>
+  <div class="meta">Primeira entrega · 13 de novembro de 2026 · <strong>Equipe: Crobat</strong> · Planejamento técnico inicial (não é a entrega final do MVP)</div>
+</header>
+
+<nav class="sumario">
+  <a href="#doc">1. Documentação</a>
+  <a href="#telas">2. Telas</a>
+  <a href="#linguagens">3. Linguagens</a>
+  <a href="#arquitetura">4. Arquitetura</a>
+  <a href="#tecnologias">5. Tecnologias</a>
+  <a href="#miro">6. Miro</a>
+</nav>
+
+<main>
+
+<!-- ===================== 1. DOCUMENTAÇÃO ===================== -->
+<section class="bloco" id="doc">
+  <h2><span class="num">1</span> Documentação inicial do projeto</h2>
+  <div class="linha"></div>
+
+  <div class="callout">
+    <strong>Nome da solução:</strong> OmniCenter – Hub Integrado de Experiência Phygital. "Phygital" porque o QR Code liga um local físico do shopping a um serviço digital que <em>já sabe onde o visitante está</em>.
+  </div>
+
+  <h3>1.1 Desafio</h3>
+  <ul>
+    <li><strong>Contexto:</strong> os visitantes podem precisar de orientações, informações, registrar reclamações ou resolver situações inesperadas durante a permanência no shopping.</li>
+    <li><strong>Problemática:</strong> a experiência de atendimento é prejudicada quando as necessidades dos visitantes não são compreendidas ou resolvidas com agilidade.</li>
+    <li><strong>Objetivo:</strong> melhorar a experiência dos visitantes no acesso aos serviços e no relacionamento com o shopping.</li>
+  </ul>
+
+  <h3>1.2 Problemas que a solução ataca</h3>
+  <div class="grid dois">
+    <div class="card"><h4>🔍 Ajuda é difícil de encontrar</h4><p>O visitante não sabe onde pedir ajuda e precisa encontrar fisicamente um balcão.</p></div>
+    <div class="card"><h4>🔀 Demandas se perdem</h4><p>As solicitações chegam por canais diferentes e se perdem entre as equipes.</p></div>
+    <div class="card"><h4>❓ Sem status nem responsável</h4><p>Ninguém sabe com clareza o status nem o responsável por cada chamado.</p></div>
+    <div class="card"><h4>📊 Gestão às cegas</h4><p>A gestão não tem dados consolidados para enxergar recorrências e gargalos.</p></div>
+  </div>
+
+  <h3>1.3 Objetivos e proposta de valor</h3>
+  <p><strong>Objetivo geral:</strong> criar um ponto de entrada digital único, contextualizado pelo local do QR Code e ligado a um fluxo operacional rastreável.</p>
+  <p><strong>Objetivos específicos:</strong></p>
+  <ul>
+    <li>Dar acesso aos serviços por QR Code, sem instalar aplicativo;</li>
+    <li>Responder dúvidas frequentes e orientar rotas com um assistente virtual;</li>
+    <li>Registrar ocorrências com categoria, descrição, local e foto opcional;</li>
+    <li>Classificar e encaminhar chamados ao setor certo;</li>
+    <li>Permitir que a equipe atualize o status e registre as providências;</li>
+    <li>Fornecer um protocolo para o visitante acompanhar o chamado;</li>
+    <li>Transformar os registros em informação para a tomada de decisão da gestão.</li>
+  </ul>
+  <div class="callout verde"><strong>Proposta de valor:</strong> para o visitante, menos esforço para conseguir ajuda e para se orientar. Para o shopping, todas as demandas num só lugar, rastreáveis e convertidas em dados de gestão.</div>
+
+  <h3>1.4 Perfis de usuário</h3>
+  <table>
+    <tr><th style="width:16%">Perfil</th><th style="width:52%">O que faz</th><th>Acesso</th></tr>
+    <tr><td><strong>Visitante</strong></td><td>Consulta informações e rotas, registra ocorrências, aciona SOS e consulta protocolo</td><td>Aplicação pública, sem cadastro obrigatório</td></tr>
+    <tr><td><strong>Operador</strong></td><td>Assume chamados do seu setor, atualiza status e registra providências</td><td>Painel com login</td></tr>
+    <tr><td><strong>Gestor</strong></td><td>Distribui demandas, acompanha indicadores e recebe os resultados da inteligência de dados</td><td>Painel com permissões ampliadas</td></tr>
+    <tr><td><strong>Administrador</strong></td><td>Cadastra planta digital, pontos de QR Code, setores, categorias e usuários</td><td>Área restrita</td></tr>
+  </table>
+
+  <h3>1.5 Escopo do MVP</h3>
+  <div class="grid dois">
+    <div class="card">
+      <h4 style="color:var(--verde)">✅ Entra no MVP</h4>
+      <ul>
+        <li>Acesso por QR Code com identificação do ponto;</li>
+        <li>Planta digital do shopping com cálculo de rota;</li>
+        <li>Home com atalhos;</li>
+        <li>Formulário de ocorrência com foto opcional;</li>
+        <li>Protocolo;</li>
+        <li>Triagem por regras com apoio de IA;</li>
+        <li>Fluxo de SOS;</li>
+        <li>Kanban: Novo, Em atendimento e Resolvido;</li>
+        <li>Login da equipe;</li>
+        <li>Indicadores básicos de inteligência de dados.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="color:#c0392b">⏳ Fica para depois</h4>
+      <ul>
+        <li>Chat com base de conhecimento completa;</li>
+        <li>Notificações por WhatsApp/SMS;</li>
+        <li>Agrupamento de reclamações por assunto;</li>
+        <li>Análise de sentimento;</li>
+        <li>Previsão de demanda.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout"><strong>Shopping piloto:</strong> Capim Dourado Shopping (Palmas – TO), com uso da planta autorizado. O shopping é praticamente todo térreo — o único nível superior é a praça de alimentação e os subsolos 1 e 2 são estacionamento. Isso torna a planta digital viável já no MVP.</div>
+
+  <h3>1.6 Requisitos funcionais</h3>
+  <div class="rf">
+    <div><b>RF01</b> – Acessar a plataforma por QR Codes vinculados a pontos físicos cadastrados</div>
+    <div><b>RF02</b> – Exibir interface responsiva com busca e atalhos para serviços</div>
+    <div><b>RF03</b> – Responder dúvidas e orientar rotas por meio de um assistente virtual, com base na planta digital</div>
+    <div><b>RF04</b> – Registrar ocorrência com categoria, descrição e local de referência</div>
+    <div><b>RF05</b> – Anexar foto opcional, com limite de formato e tamanho</div>
+    <div><b>RF06</b> – Gerar protocolo único para cada chamado</div>
+    <div><b>RF07</b> – Classificar chamados por categoria, prioridade e setor (regras + IA)</div>
+    <div><b>RF08</b> – Atribuir e reatribuir chamados a setores ou operadores</div>
+    <div><b>RF09</b> – Exibir painel Kanban com os estados Novo, Em atendimento e Resolvido</div>
+    <div><b>RF10</b> – Permitir que usuários autorizados atualizem o status e registrem providências</div>
+    <div><b>RF11</b> – Oferecer fluxo de SOS com confirmação, prioridade máxima e encaminhamento próprio</div>
+    <div><b>RF12</b> – Consultar o andamento pelo protocolo, com validação adicional</div>
+    <div><b>RF13</b> – Registrar o histórico de alterações de cada chamado</div>
+    <div><b>RF14</b> – Filtrar chamados por categoria, setor, prioridade, status e período</div>
+    <div><b>RF15</b> – Apresentar ao gestor indicadores e padrões identificados nos dados</div>
+  </div>
+
+  <h3>1.7 Requisitos não funcionais</h3>
+  <div class="grid tres">
+    <div class="card"><h4>♿ Usabilidade e acessibilidade</h4><p>Botões grandes, bom contraste, textos legíveis e rótulos em todos os controles.</p></div>
+    <div class="card"><h4>⚡ Desempenho</h4><p>A home deve abrir rápido mesmo com sinal fraco de internet.</p></div>
+    <div class="card"><h4>🔒 Segurança</h4><p>HTTPS, login para a equipe, permissões por perfil e chaves de API apenas no servidor.</p></div>
+    <div class="card"><h4>🛡️ Privacidade (LGPD)</h4><p>Lei 13.709/2018: coleta mínima, sem cadastro do visitante, fotos com acesso restrito e prazo de retenção definido.</p></div>
+    <div class="card"><h4>📜 Rastreabilidade</h4><p>Toda ação da equipe sobre um chamado fica registrada.</p></div>
+    <div class="card"><h4>💪 Resiliência</h4><p>Se a IA estiver fora do ar, o visitante continua registrando chamados pelas categorias fixas.</p></div>
+  </div>
+  <div class="callout vermelho"><strong>Premissa:</strong> o OmniCenter apoia o atendimento e <strong>não substitui</strong> os serviços públicos de emergência. O SOS aciona o fluxo interno do shopping e orienta o visitante a ligar para o <strong>192/193</strong> quando for o caso.</div>
+</section>
+
+<!-- ===================== 2. TELAS ===================== -->
+<section class="bloco" id="telas">
+  <h2><span class="num">2</span> Proposta e estrutura inicial das telas</h2>
+  <div class="linha"></div>
+
+  <p>São duas interfaces: a do <strong>visitante</strong>, pensada para o celular, e a do <strong>shopping</strong>, pensada para o computador. O visitante sempre entra pela leitura de um QR Code, e o ponto físico já vem identificado.</p>
+
+  <h3>2.1 Interface do visitante (celular)</h3>
+
+  <figure>
+    <img src="img/wf_visitante.png" alt="Wireframes das 5 telas do visitante: Home, Chat de orientação, Registro de ocorrência, Protocolo e SOS">
+    <figcaption>Visão geral – as 5 telas da interface do visitante (celular)</figcaption>
+  </figure>
+
+  <div class="tela">
+    <h4>Tela 1 – Home</h4>
+    <p>Abre já com o <strong>nome do local lido no QR Code</strong> (ex.: "Praça de alimentação"), traz a busca "Como podemos ajudar hoje?" e os atalhos <em>Reportar problema</em>, <em>Achidos e perdidos</em>, <em>Estacionamento</em> e <em>Lojas e serviços</em>. Um botão <strong>SOS vermelho fixo</strong> fica no canto da tela para emergências.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 2 – Chat de orientação</h4>
+    <p>Conversa com o assistente virtual em <strong>linguagem natural</strong>. Para pedidos de localização, mostra a <strong>planta com o trajeto desenhado desde o QR Code lido</strong>, usando referências do shopping (âncoras, praças de eventos). Há os botões <em>"Rota acessível"</em> e <em>"Abrir no Google Maps"</em>. Quando não sabe a resposta, o assistente avisa e oferece abrir um chamado.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 3 – Registro de ocorrência</h4>
+    <p>Formulário em <strong>três passos</strong>: escolher a categoria, descrever e anexar foto (opcional), revisar e enviar. O <strong>local é preenchido automaticamente pelo QR Code</strong>, dispensando digitação de endereço.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 4 – Protocolo</h4>
+    <p>Confirmação do registro com o <strong>número do protocolo</strong> (ex.: #OC-2026-0147) e o status atual (Recebido → Em atendimento → Resolvido). A mesma tela serve para <strong>consultar um chamado depois</strong>, com validação adicional para proteger os dados.</p>
+  </div>
+  <div class="tela sos">
+    <h4>Tela 5 – SOS</h4>
+    <p>Tem <strong>confirmação antes do envio</strong>, para evitar toques acidentais. Opções: <em>Emergência médica</em>, <em>Criança perdida</em> e <em>Segurança</em>. Depois do envio, mostra que a equipe foi acionada e orienta a ligar para <strong>192/193</strong> se for necessário.</p>
+  </div>
+
+  <figure>
+    <img src="img/wf_visitante_a.png" alt="Wireframes das Telas 1 a 3 do visitante: Home, Chat de orientação e Registro de ocorrência">
+    <figcaption>Detalhe – Telas 1 a 3 do visitante (Home, Chat de orientação, Registro de ocorrência)</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/wf_visitante_b.png" alt="Wireframes das Telas 4 e 5 do visitante: Protocolo e SOS" style="max-width:560px; margin:0 auto;">
+    <figcaption>Detalhe – Telas 4 e 5 do visitante (Protocolo e SOS)</figcaption>
+  </figure>
+
+  <h3>2.2 Interface do shopping (computador)</h3>
+
+  <figure>
+    <img src="img/wf_shopping.png" alt="Wireframes das telas do painel do shopping: Kanban e Inteligência de dados">
+    <figcaption>Visão geral – painel do shopping: Tela 7 (Kanban) e Tela 9 (Inteligência de dados)</figcaption>
+  </figure>
+
+  <div class="tela">
+    <h4>Tela 6 – Login</h4>
+    <p>Acesso da equipe com <strong>e-mail corporativo</strong>. O que cada pessoa vê depende do perfil: operador, gestor ou administrador.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 7 – Painel Kanban</h4>
+    <p>Colunas <strong>Novo, Em atendimento e Resolvido</strong>, atualizadas <strong>em tempo real</strong>. Cada cartão mostra protocolo, categoria, local, prioridade, setor e horário. Chamados <strong>SOS aparecem no topo e destacados em vermelho</strong>. Filtros por setor, categoria, prioridade e período.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 8 – Detalhe do chamado</h4>
+    <p>Reúne descrição, foto, <strong>sugestão da IA</strong> e a decisão final da equipe, responsável, observações internas, local na planta e o <strong>histórico completo de alterações</strong>.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 9 – Inteligência de dados</h4>
+    <p>Indicadores (volume, tempo de primeira resposta, tempo de resolução, reaberturas), <strong>mapa de calor sobre a planta do shopping</strong> e a lista de <strong>padrões identificados</strong>, cada um com a evidência que o sustenta.</p>
+  </div>
+  <div class="tela">
+    <h4>Tela 10 – Cadastros</h4>
+    <p>Planta digital (locais, níveis e ligações entre corredores), pontos de QR Code (com <strong>geração do código para impressão</strong>), setores, categorias e usuários.</p>
+  </div>
+
+  <figure>
+    <img src="img/wf_kanban.png" alt="Wireframe da Tela 7 – Painel Kanban com colunas Novo, Em atendimento e Resolvido">
+    <figcaption>Detalhe – Tela 7: Painel Kanban (cartões chegam em tempo real; arrastar muda o status)</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/wf_intel.png" alt="Wireframe da Tela 9 – Inteligência de dados com indicadores, mapa de calor e padrões identificados">
+    <figcaption>Detalhe – Tela 9: Inteligência de dados (o sistema apresenta; a decisão é do gestor)</figcaption>
+  </figure>
+
+  <div class="callout"><em>As telas 6 (Login), 8 (Detalhe do chamado) e 10 (Cadastros) seguem o mesmo padrão visual do painel. Os wireframes mostram estrutura e hierarquia, não o visual final; nomes de lojas, horários e números são apenas ilustrativos.</em></div>
+
+  <h3>2.3 Navegação principal</h3>
+  <ol class="passos">
+    <li>O visitante lê o <strong>QR Code</strong> e cai na <strong>Home</strong> já com o local identificado.</li>
+    <li>Pela <strong>busca</strong> ou pelo <strong>chat</strong>, resolve dúvidas e recebe rotas. Se não resolver, abre um chamado.</li>
+    <li>Pelo <strong>registro de ocorrência</strong>, envia o problema e recebe o <strong>protocolo</strong>.</li>
+    <li>O chamado aparece em tempo real no <strong>Kanban</strong>. Um operador o assume, atende e marca como resolvido.</li>
+    <li>Os registros acumulados alimentam a tela de <strong>inteligência de dados</strong>, que o gestor usa para decidir onde agir.</li>
+  </ol>
+</section>
+
+<!-- ===================== 3. LINGUAGENS ===================== -->
+<section class="bloco" id="linguagens">
+  <h2><span class="num">3</span> Linguagem de programação escolhida</h2>
+  <div class="linha"></div>
+
+  <p>O projeto usa <strong>duas linguagens</strong>, cada uma no que faz melhor: <strong>TypeScript</strong> para toda a operação e <strong>Python</strong> para a inteligência de dados.</p>
+
+  <div class="grid dois">
+    <div class="card">
+      <h4>🟦 TypeScript – operação</h4>
+      <p><strong>Onde:</strong> interface do visitante, painel do shopping e servidor da aplicação (registro de chamados, triagem, cálculo de rotas, chamadas à IA, protocolo).</p>
+      <ul>
+        <li>É a linguagem nativa do navegador: câmera, leitura de QR Code, envio de fotos e PWA são simples e bem documentados.</li>
+        <li>Uma única linguagem para interface e servidor, com definições de dados compartilhadas (chamado, setor, ponto).</li>
+        <li>A tipagem detecta erros antes de rodar, reduzindo falhas na integração entre telas.</li>
+        <li>Suporte direto à atualização em tempo real — essencial para o chamado aparecer no Kanban no mesmo instante.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🐍 Python – inteligência de dados</h4>
+      <p><strong>Onde:</strong> um serviço separado, de apoio à decisão. Coleta os dados, organiza, relaciona, identifica padrões e apresenta resultados ao gestor.</p>
+      <ul>
+        <li><strong>Não executa nenhuma ação sozinho:</strong> não altera chamados, não muda escalas, não aciona equipes. Quem decide é sempre uma pessoa.</li>
+        <li><strong>Fonte de dados:</strong> exclusivamente o que é registrado pela própria aplicação. Nenhuma fonte externa.</li>
+        <li>É a linguagem de referência para análise de dados (Pandas), estatística e aprendizado de máquina.</li>
+        <li>Separar a análise da operação protege o fluxo principal: se o serviço de análise falhar, os chamados continuam funcionando.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Exemplos de padrões que serão apresentados ao gestor</h3>
+  <div class="grid dois">
+    <div class="card"><h4>🔁 Recorrência</h4><p>"O banheiro da praça de alimentação recebeu <strong>14 chamados de limpeza</strong> na última semana, <strong>70% entre 12h e 14h</strong>."</p></div>
+    <div class="card"><h4>🚧 Gargalo</h4><p>"Chamados de manutenção abertos <strong>depois das 18h</strong> levam o <strong>dobro do tempo</strong> para serem resolvidos."</p></div>
+    <div class="card"><h4>♻️ Reincidência</h4><p>"A escada rolante de acesso à praça de alimentação foi <strong>reaberta 3 vezes</strong> depois de marcada como resolvida."</p></div>
+    <div class="card"><h4>📈 Desvio fora do normal</h4><p>"O ponto <strong>QR-047 teve 9 chamados hoje</strong>, contra média de 1 por dia."</p></div>
+  </div>
+  <div class="callout verde">Com isso, o <strong>gestor decide a ação</strong>: reforçar a limpeza no horário de pico, rever o turno da noite ou acionar o fornecedor do equipamento. <em>Os exemplos acima são ilustrativos — os números reais virão dos registros da aplicação.</em></div>
+</section>
+
+<!-- ===================== 4. ARQUITETURA ===================== -->
+<section class="bloco" id="arquitetura">
+  <h2><span class="num">4</span> Arquitetura proposta</h2>
+  <div class="linha"></div>
+
+  <p>A arquitetura é <strong>cliente-servidor em nuvem, organizada em camadas</strong>, com o módulo de inteligência de dados isolado da operação. As duas interfaces falam só com o servidor, e <strong>apenas ele</strong> grava no banco, calcula rotas e chama a IA. O Python lê os registros do banco e devolve indicadores e padrões ao painel do gestor.</p>
+
+  <figure>
+    <img src="img/arquitetura.png" alt="Diagrama da arquitetura do OmniCenter: clientes (PWA do visitante e painel do shopping), servidor da aplicação, banco Supabase, API de IA e serviço Python de inteligência de dados">
+    <figcaption>Arquitetura do OmniCenter: clientes, servidor, dados e serviços de apoio</figcaption>
+  </figure>
+
+  <h3>4.1 Camadas</h3>
+  <div class="grid dois">
+    <div class="card"><h4>📱 Clientes</h4><p>A aplicação do visitante (PWA aberta pelo QR Code) e o painel do shopping (Kanban, cadastros e inteligência de dados).</p></div>
+    <div class="card"><h4>⚙️ Servidor da aplicação</h4><p>Valida os dados, grava chamados, gera protocolos, aplica as regras de triagem, calcula rotas na planta digital e é o <strong>único ponto que chama a IA</strong>.</p></div>
+    <div class="card"><h4>🗄️ Dados</h4><p>Supabase concentra banco (incluindo a planta digital), login da equipe, fotos e a atualização em tempo real do Kanban.</p></div>
+    <div class="card"><h4>🤝 Serviços de apoio</h4><p>A API de IA, para interpretar texto, e o serviço Python de inteligência de dados, que <strong>só lê</strong>.</p></div>
+  </div>
+
+  <h3>4.2 Caminho de um chamado</h3>
+  <ol class="passos">
+    <li>O visitante lê o <strong>QR Code</strong>. A aplicação abre já sabendo o ponto físico.</li>
+    <li>O visitante escolhe a <strong>categoria</strong>, descreve o problema e, se quiser, anexa uma <strong>foto</strong>.</li>
+    <li>O servidor <strong>valida</strong> os dados, grava o chamado e devolve o <strong>protocolo</strong>.</li>
+    <li><strong>Triagem:</strong> cada categoria tem um setor padrão. A IA sugere categoria e prioridade, e a regra de negócio confirma o encaminhamento. Casos de baixa confiança vão para fila de triagem manual. O <strong>SOS segue sempre uma regra fixa</strong>, sem depender da IA.</li>
+    <li>O chamado aparece <strong>em tempo real no Kanban</strong> do setor responsável.</li>
+    <li>O operador <strong>assume</strong>, registra as providências e encerra. Cada passo fica no histórico.</li>
+  </ol>
+
+  <h3>4.3 Orientação pela planta digital</h3>
+  <ul>
+    <li><strong>A planta vira dados:</strong> lojas, âncoras, praças de eventos, banheiros, elevadores, escadas rolantes, acessos, caixas eletrônicos, SAC e pontos de QR Code são cadastrados com nível (térreo, praça de alimentação ou subsolos) e posição na planta. Os corredores viram ligações entre os pontos, marcadas como acessíveis ou não.</li>
+    <li><strong>Como funciona:</strong> a IA identifica o destino pedido; o servidor calcula o <strong>menor caminho</strong> a partir do QR Code lido; a IA descreve o trajeto usando referências do shopping; o visitante vê o percurso desenhado na planta.</li>
+    <li><strong>A IA não inventa rotas:</strong> ela só descreve a rota calculada pelo sistema.</li>
+    <li><strong>Rota acessível:</strong> caminho usando apenas elevadores e rampas, inclusive até a praça de alimentação.</li>
+    <li><strong>Google Maps:</strong> o botão leva ao destino para quem prefere seguir pelo GPS do celular e indica o acesso externo mais próximo da loja. A rota própria continua sendo a referência para acessibilidade e para a troca de nível.</li>
+    <li><strong>Áreas internas:</strong> depósitos e circulação de serviço não aparecem para o visitante. A localização da brigada é usada no SOS para acionar a equipe mais próxima.</li>
+  </ul>
+
+  <h3>4.4 Processamento da inteligência de dados</h3>
+  <ol class="passos">
+    <li><strong>Coletar:</strong> lê os registros da aplicação com acesso somente de leitura, sem dados que identifiquem o visitante.</li>
+    <li><strong>Organizar:</strong> padroniza categorias, horários e locais e descarta registros incompletos ou duplicados.</li>
+    <li><strong>Relacionar:</strong> cruza local, horário, categoria, setor e tempo de resolução.</li>
+    <li><strong>Identificar padrões:</strong> recorrências, gargalos, reincidências e desvios fora do normal.</li>
+    <li><strong>Apresentar:</strong> entrega os resultados na tela de inteligência de dados, cada um com a evidência que o sustenta, para o gestor decidir o que fazer.</li>
+  </ol>
+
+  <h3>4.5 Segurança e privacidade na arquitetura</h3>
+  <div class="grid tres">
+    <div class="card"><h4>🔑 Só no servidor</h4><p>Chaves de API e credenciais ficam só no servidor, nunca no navegador.</p></div>
+    <div class="card"><h4>👤 RLS por perfil</h4><p>Regras de acesso por perfil aplicadas no próprio banco (Row Level Security).</p></div>
+    <div class="card"><h4>🖼️ Fotos privadas</h4><p>Armazenamento privado, abertas por links temporários.</p></div>
+    <div class="card"><h4>📉 Python só lê</h4><p>Acessa apenas visões do banco sem dados pessoais, com perfil somente de leitura.</p></div>
+    <div class="card"><h4>🤖 IA mínima</h4><p>Rebebe apenas o texto necessário para a triagem.</p></div>
+    <div class="card"><h4>📋 Auditoria</h4><p>Ações da equipe sobre os chamados ficam registradas.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. TECNOLOGIAS ===================== -->
+<section class="bloco" id="tecnologias">
+  <h2><span class="num">5</span> Plataforma e tecnologias adotadas</h2>
+  <div class="linha"></div>
+
+  <p>A stack está definida e usa um <strong>único serviço para dados e autenticação (Supabase)</strong>, sem alternativas equivalentes em paralelo.</p>
+
+  <table>
+    <tr><th style="width:24%">Camada</th><th style="width:36%">Tecnologia adotada</th><th>Para que serve</th></tr>
+    <tr><td>Interface do visitante e painel</td><td><strong>Next.js + TypeScript + Tailwind CSS</strong></td><td>Telas do visitante (PWA) e do shopping no mesmo projeto, com rotas de servidor para as operações protegidas</td></tr>
+    <tr><td>App sem instalação</td><td><strong>PWA</strong> (manifesto + service worker)</td><td>Abre direto do QR Code no navegador, com opção de "adicionar à tela inicial"</td></tr>
+    <tr><td>QR Codes</td><td>Biblioteca <strong>qrcode</strong></td><td>Cada código leva a um endereço com o identificador do ponto físico (ex.: /p/QR-047)</td></tr>
+    <tr><td>Planta digital e rotas</td><td>Pontos e ligações no <strong>PostgreSQL</strong> + menor caminho em <strong>TypeScript</strong></td><td>Calcular o trajeto a partir do QR Code e desenhá-lo sobre a planta</td></tr>
+    <tr><td>Banco de dados</td><td><strong>Supabase – PostgreSQL</strong></td><td>Chamados, pontos, setores, usuários, planta digital e histórico, com regras de acesso por perfil no banco</td></tr>
+    <tr><td>Tempo real</td><td><strong>Supabase Realtime</strong></td><td>O chamado aparece no Kanban no instante em que o visitante envia</td></tr>
+    <tr><td>Login da equipe</td><td><strong>Supabase Auth</strong></td><td>Acesso por e-mail corporativo e perfis (operador, gestor, administrador)</td></tr>
+    <tr><td>Fotos</td><td><strong>Supabase Storage</strong></td><td>Armazenamento privado das fotos, com links temporários</td></tr>
+    <tr><td>Inteligência artificial</td><td><strong>API da OpenAI</strong> (modelo de baixo custo)</td><td>Entender a pergunta do visitante e sugerir categoria, prioridade e setor. Chamada só pelo servidor</td></tr>
+    <tr><td>Navegação externa</td><td><strong>Links do Google Maps</strong></td><td>Abrir o destino ou o acesso mais próximo no GPS do celular</td></tr>
+    <tr><td>Inteligência de dados</td><td><strong>Python + Pandas + FastAPI</strong></td><td>Processar os registros da aplicação e entregar indicadores e padrões ao painel</td></tr>
+    <tr><td>Gráficos no painel</td><td><strong>Recharts</strong></td><td>Indicadores e mapa de calor na tela de inteligência de dados</td></tr>
+    <tr><td>Hospedagem</td><td><strong>Vercel</strong> (Next.js) e <strong>Railway</strong> (Python)</td><td>Publicação automática a cada atualização do código</td></tr>
+    <tr><td>Código e versionamento</td><td><strong>GitHub</strong></td><td>Repositório único, revisão de código e histórico</td></tr>
+    <tr><td>Planejamento visual</td><td><strong>Miro</strong></td><td>Ver item 6</td></tr>
+  </table>
+
+  <h3>5.1 Fases do módulo de inteligência de dados</h3>
+  <table>
+    <tr><th style="width:14%">Fase</th><th style="width:48%">O que entrega</th><th>Por que nessa ordem</th></tr>
+    <tr><td><strong>1 – MVP</strong></td><td>Indicadores (volume, tempo de primeira resposta, tempo de resolução, reabertura), mapa de calor por ponto de QR Code e padrões de recorrência, gargalo, reincidência e desvio</td><td>Funciona com poucas semanas de registros</td></tr>
+    <tr><td><strong>2</strong></td><td>Agrupamento de reclamações por assunto e análise de sentimento das descrições</td><td>Usa o serviço de IA já previsto</td></tr>
+    <tr><td><strong>3</strong></td><td>Previsão de demanda por local e horário, para dimensionar equipes</td><td>Só depois de acumular histórico real e validar o modelo</td></tr>
+  </table>
+
+  <div class="callout amarelo"><strong>Para a demonstração:</strong> um script em Python gera <strong>chamados simulados</strong> com a mesma estrutura dos registros reais da aplicação. Alguns padrões são colocados de propósito nesses dados (por exemplo, o pico de chamados de limpeza num banheiro na hora do almoço), e a demo mostra o módulo encontrando esses padrões sozinho.</div>
+</section>
+
+<!-- ===================== 6. MIRO ===================== -->
+<section class="bloco" id="miro">
+  <h2><span class="num">6</span> Incorporação da tecnologia sorteada: Miro</h2>
+  <div class="linha"></div>
+
+  <p>O <strong>Miro</strong> será o espaço de colaboração visual da equipe durante o planejamento e o desenvolvimento do OmniCenter. Nos quadros digitais, a equipe registra decisões, organiza ideias e representa graficamente os processos da solução.</p>
+
+  <div class="grid dois">
+    <div class="card"><h4>🧭 Jornada do visitante</h4><p>Da leitura do QR Code até a resolução do chamado, com os pontos de atrito que a solução elimina.</p></div>
+    <div class="card"><h4>🔀 Fluxograma do chamado</h4><p>Registro, triagem, distribuição, atendimento e encerramento, incluindo o caminho do SOS.</p></div>
+    <div class="card"><h4>🗺️ Mapa de funcionalidades e requisitos</h4><p>O que entra no MVP e o que fica para as fases seguintes.</p></div>
+    <div class="card"><h4>🏗️ Diagrama da arquitetura</h4><p>Arquitetura e integrações da solução.</p></div>
+    <div class="card"><h4>✅ Quadro de tarefas</h4><p>Responsáveis, prioridades e andamento ao longo do HackaRun.</p></div>
+  </div>
+
+  <div class="callout">O Miro é uma ferramenta de apoio ao planejamento e à comunicação da equipe, <strong>não um componente executado dentro do produto</strong>. Os quadros serão revisados ao longo do desenvolvimento para continuar alinhados ao que for implementado.</div>
+</section>
+
+</main>
+
+<footer>
+  <strong>OmniCenter – Hub Integrado de Experiência Phygital</strong><br>
+  HackaRun · Desafio 07 – Atendimento e experiência de serviços · Primeira entrega em 13/11/2026 · Equipe Crobat<br>
+  Documentação completa em <strong>docs/OmniCenter_Planejamento_Tecnico_Inicial.md</strong> · Shopping piloto: Capim Dourado Shopping (Palmas – TO)
+</footer>
+
+</body>
+</html>

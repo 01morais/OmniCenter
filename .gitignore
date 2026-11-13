@@ -1,0 +1,69 @@
+# ============================
+# Sistema e editores
+# ============================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# VS Code (mantém config compartilhada da equipe, ignora local)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ============================
+# Segredos e ambiente (NUNCA versionar)
+# ============================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ============================
+# Node.js / Next.js / TypeScript
+# ============================
+node_modules/
+.next/
+out/
+build/
+dist/
+.turbo/
+.next-cache/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ============================
+# Python / Pandas / FastAPI
+# ============================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+jupyter/.ipynb_checkpoints/
+
+# ============================
+# Dados e artefatos locais
+# ============================
+*.log
+coverage/
+htmlcov/
+.DS_Store
+tmp/
+temp/
+
+# ============================
+# Hospedagem
+# ============================
+.vercel/
+.railway/
