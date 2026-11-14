@@ -1,0 +1,12 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root { color-scheme: light; }
+body { @apply bg-papel text-ink font-corpo antialiased; padding-bottom: env(safe-area-inset-bottom); }
+h1, h2, h3 { @apply font-titulo tracking-tight; }
+:focus-visible { outline: 3px solid #C9962B; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.btn { @apply inline-flex min-h-[48px] items-center justify-center rounded-xl border border-ink/25 bg-white px-4 py-2 text-base font-semibold text-ink; }
+.btn-p { @apply border-ink bg-ink text-white; }
+.btn-sos { @apply border-sos bg-sos text-white; }
+.campo { @apply min-h-[48px] w-full rounded-xl border border-ink/25 bg-white px-3 py-2; }
+.rotulo { @apply mb-1 mt-4 block font-semibold; }
+.chip { @apply inline-block rounded-full border border-ink/25 px-2 py-0.5 text-xs; }
