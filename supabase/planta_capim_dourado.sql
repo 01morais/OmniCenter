@@ -1,0 +1,150 @@
+-- OmniCenter · Planta do Capim Dourado Shopping, conforme o arquivo recebido.
+-- Após 001_schema.sql e seed.sql. As coordenadas cabem no mapa atual (320 × 220).
+-- A troca inteira é desfeita se houver chamados ou se alguma instrução falhar.
+begin;
+
+lock table public.chamados, public.pontos_qr, public.ligacoes, public.locais
+  in share row exclusive mode;
+
+do $$
+begin
+  if exists (select 1 from public.chamados) then
+    raise exception 'A planta só pode ser substituída antes de registrar chamados.';
+  end if;
+end $$;
+
+delete from public.pontos_qr;
+delete from public.ligacoes;
+delete from public.locais;
+
+insert into public.locais (id, nome, nivel, tipo, x, y, publico) values
+  ('ACESSO-NS05', 'Entrada Principal (Av. NS-05)', 'terreo', 'acesso', 154.0, 177.5, true),
+  ('ACESSO-JK', 'Entrada Oeste (Av. JK)', 'terreo', 'acesso', 35.5, 146.0, true),
+  ('ACESSO-LO2A', 'Entrada Leste (Av. LO 2A)', 'terreo', 'acesso', 274.0, 134.0, true),
+  ('ACESSO-NORTE', 'Acesso Estacionamento Norte', 'terreo', 'acesso', 154.0, 53.0, true),
+  ('PRACA-OESTE', 'Praça de Eventos Oeste (Renner)', 'terreo', 'evento', 79.0, 146.0, true),
+  ('COR-SUL-OESTE', 'Corredor Centauro / Stilo A', 'terreo', 'corredor', 115.0, 152.0, true),
+  ('PRACA-CENTRAL', 'Praça de Eventos Central', 'terreo', 'evento', 154.0, 146.0, true),
+  ('COR-SUL-LESTE', 'Corredor Outback / Madero', 'terreo', 'corredor', 190.0, 155.0, true),
+  ('PRACA-NORTE', 'Praça de Eventos Norte (C&A)', 'terreo', 'evento', 154.0, 95.0, true),
+  ('COR-NOROESTE', 'Corredor Polo Wear / Youcom', 'terreo', 'corredor', 109.0, 116.0, true),
+  ('COR-NORDESTE', 'Corredor Livraria Leitura', 'terreo', 'corredor', 193.0, 113.0, true),
+  ('COR-LESTE-CENTRO', 'Corredor Brookfield / Hering', 'terreo', 'corredor', 209.5, 137.0, true),
+  ('COR-LESTE-SUL', 'Corredor Cinemark / Marisa', 'terreo', 'corredor', 235.0, 149.0, true),
+  ('COR-LESTE-NORTE', 'Alameda Leste (Pernambucanas / Big)', 'terreo', 'corredor', 238.0, 86.0, true),
+  ('LOJA-RENNER', 'Renner', 'terreo', 'ancora', 56.5, 146.0, true),
+  ('LOJA-CENTAURO', 'Centauro', 'terreo', 'ancora', 115.0, 170.0, true),
+  ('LOJA-RIHAPPY', 'Ri Happy', 'terreo', 'loja', 112.0, 137.0, true),
+  ('LOJA-CAMICADO', 'Camicado', 'terreo', 'loja', 139.0, 162.5, true),
+  ('LOJA-OUTBACK', 'Outback Steakhouse', 'terreo', 'loja', 172.0, 162.5, true),
+  ('LOJA-MADERO', 'Madero', 'terreo', 'loja', 190.0, 170.0, true),
+  ('LOJA-MARISA', 'Marisa', 'terreo', 'ancora', 212.5, 170.0, true),
+  ('LOJA-RIACHUELO', 'Riachuelo', 'terreo', 'ancora', 154.0, 120.5, true),
+  ('LOJA-CEA', 'C&A', 'terreo', 'ancora', 154.0, 74.0, true),
+  ('LOJA-LEITURA', 'Livraria Leitura', 'terreo', 'loja', 190.0, 98.0, true),
+  ('LOJA-BK', 'Burger King', 'terreo', 'loja', 218.5, 126.5, true),
+  ('LOJA-CINEMARK', 'Cinemark', 'terreo', 'ancora', 254.5, 149.0, true),
+  ('LOJA-STZ', 'Studio Z (STZ)', 'terreo', 'ancora', 251.5, 120.5, true),
+  ('LOJA-PERNAMBUCANAS', 'Pernambucanas', 'terreo', 'ancora', 251.5, 99.5, true),
+  ('LOJA-BIGLAR', 'Big Lar', 'terreo', 'loja', 251.5, 84.5, true),
+  ('LOJA-ZIGZAG', 'Zig Zag Play', 'terreo', 'loja', 251.5, 72.5, true),
+  ('LOJA-BIG', 'Supermercado Big', 'terreo', 'ancora', 251.5, 60.5, true),
+  ('LOJA-WOWPARK', 'Wow Park', 'terreo', 'loja', 251.5, 48.5, true),
+  ('LOJA-MOROFIT', 'Morofit Academia', 'terreo', 'loja', 251.5, 38.0, true),
+  ('SAC-TERREO', 'SAC / Achados e Perdidos', 'terreo', 'servico', 139.0, 137.0, true),
+  ('CAIXA-24H', 'Caixas Eletrônicos (Banco 24h)', 'terreo', 'caixa_eletronico', 205.0, 125.0, true),
+  ('BANHEIRO-T-OESTE', 'Banheiros Térreo (Ala Oeste)', 'terreo', 'banheiro', 91.0, 129.5, true),
+  ('BANHEIRO-T-LESTE', 'Banheiros Térreo (Ala Leste)', 'terreo', 'banheiro', 223.0, 141.5, true),
+  ('ESC-T-PRACA', 'Escada Rolante (Acesso Praça Aliment.)', 'terreo', 'escada', 73.0, 156.5, true),
+  ('ELEV-T-PRACA', 'Elevador (Acesso Praça Alimentação)', 'terreo', 'elevador', 67.0, 135.5, true),
+  ('ELEV-T-SUBSOLO', 'Elevador Estacionamento (Subsolos)', 'terreo', 'elevador', 172.0, 137.0, true),
+  ('ESC-P-PRACA', 'Escada Rolante (Praça de Alimentação)', 'praca_alimentacao', 'escada', 214.0, 110.0, true),
+  ('ELEV-P-PRACA', 'Elevador (Praça de Alimentação)', 'praca_alimentacao', 'elevador', 82.0, 110.0, true),
+  ('PRACA-ALIM-CENTRO', 'Praça de Alimentação (Salão Central)', 'praca_alimentacao', 'alimentacao', 148.0, 110.0, true),
+  ('COR-ALIM-NORTE', 'Ala Norte Alimentação (McDonald''s / Spoleto)', 'praca_alimentacao', 'corredor', 148.0, 80.0, true),
+  ('COR-ALIM-SUL', 'Ala Sul Alimentação (Giraffas / Subway)', 'praca_alimentacao', 'corredor', 148.0, 140.0, true),
+  ('LOJA-MCDONALDS', 'McDonald''s', 'praca_alimentacao', 'loja', 109.0, 71.0, true),
+  ('LOJA-SPOLETO', 'Spoleto / Pizza Hut', 'praca_alimentacao', 'loja', 139.0, 68.0, true),
+  ('LOJA-DIVINOFOGAO', 'Divino Fogão / Dona Maria', 'praca_alimentacao', 'loja', 172.0, 69.5, true),
+  ('LOJA-KINSUI', 'Kin Sui / Giraffas', 'praca_alimentacao', 'loja', 109.0, 146.0, true),
+  ('LOJA-SUBWAY', 'Subway / Express Grill', 'praca_alimentacao', 'loja', 163.0, 149.0, true),
+  ('BANHEIRO-P-MASC', 'Banheiro Masculino (Praça de Alimentação)', 'praca_alimentacao', 'banheiro', 193.0, 66.5, true),
+  ('BANHEIRO-P-FEM', 'Banheiro Feminino e PNE (Praça de Alimentação)', 'praca_alimentacao', 'banheiro', 193.0, 153.5, true),
+  ('BRIGADA-P', 'Base da Brigada de Emergência', 'praca_alimentacao', 'brigada', 182.5, 156.5, false),
+  ('ELEV-S1', 'Elevador (Subsolo 1)', 'subsolo1', 'elevador', 172.0, 137.0, true),
+  ('ESTAC-S1', 'Estacionamento Subsolo 1', 'subsolo1', 'estacionamento', 145.0, 137.0, true),
+  ('ELEV-S2', 'Elevador (Subsolo 2)', 'subsolo2', 'elevador', 172.0, 137.0, true),
+  ('ESTAC-S2', 'Estacionamento Subsolo 2', 'subsolo2', 'estacionamento', 145.0, 137.0, true);
+
+insert into public.ligacoes (a, b, acessivel) values
+  ('ACESSO-JK', 'LOJA-RENNER', true),
+  ('LOJA-RENNER', 'PRACA-OESTE', true),
+  ('PRACA-OESTE', 'ESC-T-PRACA', true),
+  ('PRACA-OESTE', 'ELEV-T-PRACA', true),
+  ('PRACA-OESTE', 'BANHEIRO-T-OESTE', true),
+  ('PRACA-OESTE', 'COR-NOROESTE', true),
+  ('PRACA-OESTE', 'COR-SUL-OESTE', true),
+  ('COR-SUL-OESTE', 'LOJA-CENTAURO', true),
+  ('COR-SUL-OESTE', 'LOJA-RIHAPPY', true),
+  ('COR-SUL-OESTE', 'PRACA-CENTRAL', true),
+  ('ACESSO-NS05', 'PRACA-CENTRAL', true),
+  ('PRACA-CENTRAL', 'LOJA-CAMICADO', true),
+  ('PRACA-CENTRAL', 'SAC-TERREO', true),
+  ('PRACA-CENTRAL', 'ELEV-T-SUBSOLO', true),
+  ('PRACA-CENTRAL', 'LOJA-RIACHUELO', true),
+  ('PRACA-CENTRAL', 'COR-SUL-LESTE', true),
+  ('COR-SUL-LESTE', 'LOJA-OUTBACK', true),
+  ('COR-SUL-LESTE', 'LOJA-MADERO', true),
+  ('COR-SUL-LESTE', 'COR-LESTE-CENTRO', true),
+  ('COR-NOROESTE', 'PRACA-NORTE', true),
+  ('PRACA-NORTE', 'LOJA-RIACHUELO', true),
+  ('PRACA-NORTE', 'LOJA-CEA', true),
+  ('LOJA-CEA', 'ACESSO-NORTE', true),
+  ('PRACA-NORTE', 'COR-NORDESTE', true),
+  ('COR-NORDESTE', 'LOJA-LEITURA', true),
+  ('COR-NORDESTE', 'COR-LESTE-CENTRO', true),
+  ('COR-LESTE-CENTRO', 'CAIXA-24H', true),
+  ('COR-LESTE-CENTRO', 'LOJA-BK', true),
+  ('COR-LESTE-CENTRO', 'BANHEIRO-T-LESTE', true),
+  ('COR-LESTE-CENTRO', 'COR-LESTE-SUL', true),
+  ('COR-LESTE-CENTRO', 'COR-LESTE-NORTE', true),
+  ('COR-LESTE-SUL', 'LOJA-MARISA', true),
+  ('COR-LESTE-SUL', 'LOJA-CINEMARK', true),
+  ('COR-LESTE-SUL', 'ACESSO-LO2A', true),
+  ('COR-LESTE-NORTE', 'LOJA-STZ', true),
+  ('COR-LESTE-NORTE', 'LOJA-PERNAMBUCANAS', true),
+  ('COR-LESTE-NORTE', 'LOJA-BIGLAR', true),
+  ('COR-LESTE-NORTE', 'LOJA-ZIGZAG', true),
+  ('COR-LESTE-NORTE', 'LOJA-BIG', true),
+  ('COR-LESTE-NORTE', 'LOJA-WOWPARK', true),
+  ('COR-LESTE-NORTE', 'LOJA-MOROFIT', true),
+  ('ELEV-T-PRACA', 'ELEV-P-PRACA', true),
+  ('ESC-T-PRACA', 'ESC-P-PRACA', false),
+  ('ELEV-T-SUBSOLO', 'ELEV-S1', true),
+  ('ELEV-S1', 'ELEV-S2', true),
+  ('ESC-P-PRACA', 'PRACA-ALIM-CENTRO', true),
+  ('ELEV-P-PRACA', 'PRACA-ALIM-CENTRO', true),
+  ('PRACA-ALIM-CENTRO', 'COR-ALIM-NORTE', true),
+  ('PRACA-ALIM-CENTRO', 'COR-ALIM-SUL', true),
+  ('COR-ALIM-NORTE', 'LOJA-MCDONALDS', true),
+  ('COR-ALIM-NORTE', 'LOJA-SPOLETO', true),
+  ('COR-ALIM-NORTE', 'LOJA-DIVINOFOGAO', true),
+  ('COR-ALIM-NORTE', 'BANHEIRO-P-MASC', true),
+  ('COR-ALIM-SUL', 'LOJA-KINSUI', true),
+  ('COR-ALIM-SUL', 'LOJA-SUBWAY', true),
+  ('COR-ALIM-SUL', 'BANHEIRO-P-FEM', true),
+  ('COR-ALIM-SUL', 'BRIGADA-P', true),
+  ('ELEV-S1', 'ESTAC-S1', true),
+  ('ELEV-S2', 'ESTAC-S2', true);
+
+insert into public.pontos_qr (codigo, local_id, ativo) values
+  ('QR-001', 'ACESSO-NS05', true),
+  ('QR-002', 'PRACA-CENTRAL', true),
+  ('QR-005', 'PRACA-OESTE', true),
+  ('QR-012', 'PRACA-ALIM-CENTRO', true),
+  ('QR-021', 'ESTAC-S1', true),
+  ('QR-022', 'ESTAC-S2', true),
+  ('QR-030', 'COR-LESTE-SUL', true),
+  ('QR-047', 'COR-LESTE-CENTRO', true);
+
+commit;
